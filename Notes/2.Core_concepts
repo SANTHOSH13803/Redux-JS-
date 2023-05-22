@@ -1,0 +1,30 @@
+There are "Three(3)" core concepts to understand here
+to understand those lets take a scenario.
+
+    Scenario: Cake Shop 
+        We only can purchase the cake if we ordered it(not in any other mode).
+        > Entities : 
+            Shop        - Stores cakes on a Shelf
+            Shopkepper  - Behind the counter.
+            Customer    - At the store Entrance.
+        
+        > Activities : 
+            customer    - Order a cake.
+            Shopkepper  - Box a cake from the shelf.
+                        - Receipt to keep track
+
+How we apply redux to above concepts? 
+
+----------------------------------------------------------------------------
+Cake Shop Scenario      |       Redux           |       Purpose
+----------------------------------------------------------------------------
+Shop                    |    Store              | Holds the state of your application.
+Cake ordered            |    Action             | Describes what happened
+Shopkeeper              |    Reducer            | Ties the store and actions (packs the order and takes the cake from the shelf)
+
+
+Simply to understand the core concepts , See below
+
+Store   -> Holds the state of the application
+Action  -> Describes what happened in the application.
+Reducer -> Which handles the action and decides how to update the state.

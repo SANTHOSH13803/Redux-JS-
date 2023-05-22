@@ -1,0 +1,31 @@
+* Actions (lines : 2 - 15)
+    > Actions is the only way your app can interact with the redux store.
+    > They carry inforamtion from app to redux store.
+    > Actions are plain JS objects.
+    > They have a "type" property that describes something that happened in the application.
+    > The 'type' property is typically defined as string constants.
+
+Note : An action is an object with "type" property. 
+
+
+* Reducers (line : 20 - 33): 
+    > Specify how the app's state changes in response to actions sent to the store.
+    > In terms of code we can say that , "Reducer accept state and action as arguments,
+        and returns the next state of the application"
+
+        (previousState,action) => state
+    > We use switch statement in Reducer funtion.
+       Eg : 
+            const reducer = (state = initialState, action) => {
+            switch (action.type) {
+                case CAKE_ORDERED:
+                return ({
+                    ...state,
+                    numberOfCakes: state.numberOfCakes - 1,
+                });
+                // If there are more than one property , we must use spread operator
+                //otherwise only the updated value is present in updated state
+                default:
+                return state;
+            }
+            };

@@ -1,0 +1,16 @@
+-> Bind Action Creator is a hepler function that redux provides.
+
+    we generally use 
+            store.dispatch(actionCreator()) 
+
+    There is an alternative way ass well to write the above line
+        i.e , 
+            const bindActionCreators = redux.bindActionCreators
+            ....
+            const actions = bindActionCreators({orderCake,restockCake}, store.dispatch)
+            actions.orderCake()
+            actions.orderCake()
+            actions.orderCake()
+
+            actions.restockCake(3)
+

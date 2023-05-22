@@ -1,0 +1,65 @@
+There are "Three(3) Fundamental priciples" in Redux.
+
+We have seen the core concepts in previous section,
+to implement the logic into code we use the below priciples.
+
+
+Priciple-1 :  
+    The global state of your application is stored as an object inside a single store.
+    
+    Maintain our application state is a single object which would be managed
+    by the Redux Store.
+
+    Cake shop scenerio : 
+        Let's assume we are tracking the number of cakes on the shelf
+        {
+            numberOfCakes : 10
+        }
+
+Priciple-2: 
+    The only way to change the state is to dispatch an action, an Object that describes
+    what happened.
+    
+    To update the state of your app, you need to let Redux know about that with an action.
+
+    Not allowed to directly update the state object.
+
+    Cake shop scenerio:
+        Scan the QR code and place the order - CAKE_ORDERED
+        {
+            type :'CAKE_ORDERED'   
+        }
+
+Priciple-3:
+    To specify how the state tree is updated based on action,we write pure reducers.
+    (we need to write pure reducers).
+
+    To update the state of application , we use principle-3.
+
+    Cake shop scenerio:
+        Reducer is the shopkeeper
+        (he pack the cake from the shelf and make a reciept of the item)
+
+        const reducer = (state=initialState,action)=>{
+            switch(action.type){
+                case CAKE_ORDERED:
+                return({
+                    numberOfCakes: state.numberOfCakes-1
+                })
+            }
+        }
+
+
+
+____________________Visualisation____________________
+How redux works.
+
+We have our "application" and "redux store"  independently.
+But we cannot Update the state of "Redux store" directly through our "application"
+
+_____________   ✔️     _________________    dispatch    _________          __________
+| Redux Store| ----->  | Javascript app | ------------> | Action | ------> | Reducer | 
+|____________| <-----  |________________|               |________|         |_________|
+    ⬆            ❌                                                             |
+    ⬆------------------------------------------⬅-------------------------------⬅
+

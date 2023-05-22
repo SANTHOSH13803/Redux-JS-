@@ -1,0 +1,105 @@
+To understand how to use multiple reducers let's take a scenario
+
+> Upto now we are only selling cakes in the store.
+    Let's assume we are also selling "Ice Creams" as well.
+    Where ice-creams are stored in Freezer.
+> To makes things easier , Let's assume we hired a shopkeeper for selling "Ice Creams"
+    (i.e, we have two shopkeepers one for Cakes and one for Ice-creams)
+
+-> Why we use multiple reducers,
+    using single reducer is fine if there are less items,
+    but in real world scenario there are 'N' number of items in a store.
+    so we use multiple reducers.
+
+-> Impelemting above logic in code.
+    This logic is for single Reducer only (for understanding of ice cream logic)
+    Step-1 :  Defining Actions 
+        i.e, 
+        const ICECREAM_ORDERED ='ICECREAM_ORDERED'; 
+        const ICECREAM_RESTOCKED = "ICECREAM_RESTOCKED";
+    
+    Step-2 : Creating action Creator for ice-creams.
+            ie,     
+                function orderIcecream (qty=1) {
+                    return{
+                        type : ICECREAM_ORDERED,
+                        payload : qty
+                    }
+                }
+
+                  function restockIcecream (qty=1) {
+                    return{
+                        type : ICECREAM_RESTOCKED,
+                        payload : qty
+                    }
+                }
+    
+    Step-3 : we write logic in reducer function.
+            i.e, 
+                   case ICECREAM_ORDERED:
+                        return {
+                            ...state,
+                            numOfIcecreams: state.numOfIcecreams - 1,
+                        };
+                    case ICECREAM_RESTOCKED:
+                        return {
+                            ...state,
+                            numOfIcecreams: state.numOfIcecreams + action.payload,
+                        };
+
+
+Creating multiple reducer(It means we are spreading our reducer)
+
+    Step-1 : Create initalState of Cakes and icecreams seperately.
+            const initialCakeState = { numOfCakes : 10 }
+            const initialIceCreamState = { numOfIcecreams: 20 }
+
+    step-2 : Simillarly we split the reducer into two
+            i.e, 
+                const cakeReducer = (state = initialCakeState, action) => {
+                switch (action.type) {
+                    case CAKE_ORDERED:
+                    return {
+                        ...state,
+                        numberOfCakes: state.numberOfCakes - 1,
+                    };
+                    case CAKE_RESTOCKED:
+                    return {
+                        ...state,
+                        numberOfCakes: state.numberOfCakes + action.payload,
+                    };
+                };
+                }
+
+                const icecreamReducer = (state = initialIceCreamState, action) => {
+                switch (action.type) {
+                    case ICECREAM_ORDERED:
+                    return {
+                        ...state,
+                        numOfIcecreams: state.numOfIcecreams - 1,
+                    };
+                    case ICECREAM_RESTOCKED:
+                    return {
+                        ...state,
+                        numOfIcecreams: state.numOfIcecreams + action.payload,
+                    };
+
+                    default:
+                    return state;
+                }
+                };
+
+    step-3 : In general legacy_createStore accepts only one reducer,
+            In case of multiple reducers, Redux provides a method to combine mutliple reducers.
+            i.e, 
+                import {combineReducer} from 'redux'
+
+    step-4 : 
+            using combine reducers to make muliple reducer to one.
+                const rootReducer = combineReducers({
+                    cake: cakeReducer,
+                    iceCream: icecreamReducer,
+                });
+    step-5 : 
+            passing it to legacy_createStore
+                const store = createStore(rootReducer);

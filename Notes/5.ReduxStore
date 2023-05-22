@@ -1,0 +1,14 @@
+In this part we are going to learn about acitons and reducers which we implemented.
+
+* Redux Store : 
+    > For entire application we have "One Redux Store"
+
+* Responsibility of Redux store : 
+    > Holding application state
+    > Allows access to state via "getState()"
+    > Allows state to be updated via "dispatch(action)"
+    > Register listeners using "subscribe(listener)"
+        subscribe methods accepts functions as an argument which
+        is excueted when state in redux store changes.
+    > You can also unsubscribe the listeners via the fuction retuned by "subscribe(listener)"
+    

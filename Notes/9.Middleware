@@ -1,0 +1,96 @@
+Here we are using "Immer" third part tool for easy state updation.
+
+In the below reducer if we need to update the state 
+there is a complex steps that need to be done by developer.
+
+    const reducer = (state = initialState, action) => {
+    switch (action.type) {
+        case UPDATE_STREET:
+        return {
+            ...state,
+            address: {
+            ...state.address,
+            street: action.payload,
+            },
+        };
+
+        default:
+        return state;
+    }
+    };
+
+So to reduce the complexity we use "Immer"
+
+Steps to use it 
+
+    Step 1 : 
+        Install immer package and import it
+            npm install immer
+
+            import { produce } from "immer";
+
+    
+    Step 2 : The only change we need to done is in the reducer return statement
+            i.e, 
+                return produce(state, (draftCopyOfTheState) => {
+                    draftCopyOfTheState.address.street = action.payload;
+                });
+
+    what the immer does functinality is the same we did manually,
+    It simplifies the state updation. 
+
+
+What is middle ware ?
+    > Is the suggested way to extend Redux with custom functionality.
+    > Provides a third-party extension point between dispatching an action,
+        and the moment it reaches the reducer.
+    > Use middleware for logging, crash resporting, performing asynchronous tasks etc.
+
+How to use middleware in redux?
+    
+    In this app we are using 'redux-logger' a middleware funtion
+    see docs of redux-logger for complete understanding
+    step-1 :
+            npm i redux-logger
+
+            import reduxLogger from "redux-logger";
+            
+            and also import applyMiddleware from 'redux'
+
+            applyMiddleware is used to apply the middleware to store.
+        
+    step-2 :  creating a logger
+            const logger = reduxLogger.createLogger();
+    
+    step-3 : 
+            Passing applyMiddleware(logger) as a second argument to store.
+                const store = createStore(rootReducer, applyMiddleware(logger)); //We are creating a redux store here
+
+            
+            in terminal
+
+                  Initial State { cake: { numberOfCakes: 10 }, iceCream: { numberOfIcecreams: 20 } }
+ action CAKE_ORDERED @ 21:23:46.767
+   prev state { cake: { numberOfCakes: 10 }, iceCream: { numberOfIcecreams: 20 } }
+   action     { type: 'CAKE_ORDERED', payload: 1 }
+   next state { cake: { numberOfCakes: 9 }, iceCream: { numberOfIcecreams: 20 } }
+ action CAKE_ORDERED @ 21:23:46.774
+   prev state { cake: { numberOfCakes: 9 }, iceCream: { numberOfIcecreams: 20 } }
+   action     { type: 'CAKE_ORDERED', payload: 1 }
+   next state { cake: { numberOfCakes: 8 }, iceCream: { numberOfIcecreams: 20 } }
+ action CAKE_ORDERED @ 21:23:46.777
+   prev state { cake: { numberOfCakes: 8 }, iceCream: { numberOfIcecreams: 20 } }
+   action     { type: 'CAKE_ORDERED', payload: 1 }
+   next state { cake: { numberOfCakes: 7 }, iceCream: { numberOfIcecreams: 20 } }
+ action CAKE_RESTOCKED @ 21:23:46.782
+   prev state { cake: { numberOfCakes: 7 }, iceCream: { numberOfIcecreams: 20 } }
+   action     { type: 'CAKE_RESTOCKED', payload: 4 }
+erOfIcecreams: 19 } }
+ action ICECREAM_ORDERED @ 21:23:46.787
+   prev state { cake: { numberOfCakes: 11 }, iceCream: { numberOfIcecreams: 19 } }
+   action     { type: 'ICECREAM_ORDERED', payload: 1 }
+   next state { cake: { numberOfCakes: 11 }, iceCream: { numberOfIcecreams: 18 } }
+ action ICECREAM_RESTOCKED @ 21:23:46.791
+   prev state { cake: { numberOfCakes: 11 }, iceCream: { numberOfIcecreams: 18 } }
+   action     { type: 'ICECREAM_RESTOCKED', payload: 2 }
+   next state { cake: { numberOfCakes: 11 }, iceCream: { numberOfIcecreams: 20 } }

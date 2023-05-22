@@ -1,0 +1,33 @@
+
+Everyday, a vendor comes to the shop to restock the shelves
+
+The vendor can stock up one or more number of cakes depending on the previous day sales.
+
+Implemting via code
+
+Step 1 : 
+    > Need to create an action 
+        i.e, const CAKE_RESTOCKED = "CAKE_RESTOCKED";
+
+Step 2 : 
+    > Creating an action creator according to CAKE_RESTOCKED.
+        i.e,
+            function restockCake(qnt = 1) {
+                return {
+                    type: CAKE_RESTOCKED,
+                    payload: qnt,
+                };
+            }   
+
+Step 3 : 
+    > Implementing updating state login in reducer
+        ie ,   
+             case CAKE_RESTOCKED:
+                return {
+                    ...state,
+                    numberOfCakes: state.numberOfCakes + action.payload,
+                };
+
+Step 4: 
+    > passing action creator to dispatch method to update the store.
+        ie, store.dispatch(restockCake(3)); 

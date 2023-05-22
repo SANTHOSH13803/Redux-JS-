@@ -1,0 +1,79 @@
+-> Until now we only performed synchronous actions on the code.
+    Like CAKE_ORDERED, ICECREAM_ORDERED decremented the state right away.
+    
+-> But in general we also need asynchronous operation in our apps.
+    > Async API calls to fetch data from an end point.
+
+
+-> While using async we maintain state as follows
+    state = {
+        loading : true, //for loader
+        data : [], // data that we fetched from endpoint
+        error : '' // in case of error
+    }
+
+-> Actions in async calls 
+    we define 3 actions generally in API calls
+        i) FETCH_DATA
+        ii) FETCH_DATA_SUCCESS 
+        iii) FETCH_DATA_FAILURE 
+    
+-> Reducers in async calls.
+
+    case : FETCH_DATA 
+        loading : true
+
+    case : FETCH_DATA_SUCCESS 
+        loading : false
+        data : data(from API)
+
+    case : FETCH_DATA_FAILURE 
+        loading : false
+        error : error from API
+
+
+-> Making api call using redux
+    We need to install 2 packages 
+        i) Axios package.
+        ii) Redux-thunk -> Defines async action creators.
+
+    Impelemting in code
+        Step-1 : Install Axios and Redux-thunk
+                npm install axios redux-thunk
+        
+        Step-2 : Applying redux-thunk middleware to our redux store.
+            const axios = require("axios");
+            const redux = require("redux");
+            const createStore = redux.legacy_createStore;
+            const applyMiddleware = redux.applyMiddleware;
+
+            const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+ 
+        What redux-thunk bring to the table is instead of return action object it returns a Function.
+
+        step-3 : buidling fetchdata aciton creator
+                const fetchUsers = () => {
+                return function (dispatch) {
+                    dispatch(fetchUsersRequested());
+                    axios
+                    .get("https://jsonplaceholder.typicode.com/users")
+                    .then((response) => {
+                        const users = response.data.map((user) => user.id);
+                        dispatch(fetchUsersSuccess(users));
+                    })
+                    .catch((err) => {
+                        console.log("Error");
+                        dispatch(fetchUsersFailed(err.message));
+                    });
+                };
+                };
+
+        step-4 : calling dispatch
+                store.dispatch(fetchUsers());
+
+
+
+            
+
+
+___ async-action.js file

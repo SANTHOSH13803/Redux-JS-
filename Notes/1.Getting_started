@@ -1,0 +1,7 @@
+step 1 : (to initilize package.json)
+    npm init --yes 
+         
+step-2 : adding redux as dependeny to our project
+    npm install redux
+
+step-3 : Create "index.js" to write JS code.
